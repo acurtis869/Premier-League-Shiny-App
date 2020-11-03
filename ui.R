@@ -13,8 +13,8 @@ fluidPage(
     sidebarPanel(
       # Sorting options
       selectInput("ordering", "Order by:",
-                  choices = c("position, club, played, won, drawn, 
-                              lost, GF, GA, GD, points")),
+                  choices = c("position", "club", "played", "won", "drawn", 
+                              "lost", "GF", "GA", "GD", "points")),
       # Refresh button
       actionButton(inputId = "refresh",
                    label = "Refresh Table",
@@ -25,6 +25,7 @@ fluidPage(
                    icon = icon("download"))
     ),
     # The main table
-    mainPanel(plotOutput(outputId = "table"))
+    mainPanel(tabPanel("Table"),
+              tableOutput("table"))
     )
 )
