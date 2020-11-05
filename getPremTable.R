@@ -1,9 +1,12 @@
-# Function which gets current data for the Premier League from online
+# Function which scrapes current data for the Premier League from online and
+# returns the table as a data frame
 
+# Load required libraries
 library(tidyverse)
 library(rvest)
 
 getPremTable <- function() {
+  # Begin scraping
   URL <- "https://www.premierleague.com/tables"
   htmlPage <- read_html(URL)
   
