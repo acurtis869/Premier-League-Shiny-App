@@ -12,9 +12,22 @@ fluidPage(
     
     sidebarPanel(
       # Sorting options
-      selectInput("ordering", "Order by:",
-                  choices = c("position", "club", "played", "won", "drawn", 
-                              "lost", "GF", "GA", "GD", "points")),
+      selectInput(inputId = "ordering",
+                  label = "Order by:",
+                  choices = c("Position" = "position", 
+                              "Club" = "club", 
+                              "Played" = "played", 
+                              "Won" = "won", 
+                              "Drawn" = "drawn", 
+                              "Lost" = "lost",
+                              "GF" = "GF", 
+                              "GA" = "GA",
+                              "GD" = "GD",
+                              "Points" = "points")),
+      radioButtons(inputId = "desc",
+                   label = "Direction",
+                   choices = list("Ascending" = -1,
+                                  "Descending" = 1)),
       # Refresh button
       actionButton(inputId = "refresh",
                    label = "Refresh Table",

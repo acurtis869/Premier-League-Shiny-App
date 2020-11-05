@@ -3,6 +3,8 @@
 function(input, output) {
   # Scrape data from Premier League website
   # Load in the web page:
+  library(tidyverse)
+  library(rvest)
   URL <- "https://www.premierleague.com/tables"
   htmlPage <- read_html(URL)
   
@@ -54,6 +56,7 @@ function(input, output) {
                           drawn, lost, GF, GA, GD, points)
   
   # Define our only output - a table
-  output$table <- renderTable(premTable)
+  output$table <- renderTable(
+    arrange(premTable, 
+            as.numeric(input$desc) * dplyr::desc(!!rlang::sym(input$ordering))))
 }
-
