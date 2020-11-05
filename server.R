@@ -52,6 +52,7 @@ function(input, output) {
     html_text() %>%
     as.numeric()
   
+  # Compile data into a data frame
   premTable <- data.frame(position, club, played, won, 
                           drawn, lost, GF, GA, GD, points)
   
@@ -59,4 +60,12 @@ function(input, output) {
   output$table <- renderTable(
     arrange(premTable, 
             as.numeric(input$desc) * dplyr::desc(!!rlang::sym(input$ordering))))
+  
+  # Download dataset button
+  observeEvent(input$download, {
+    write.csv(arrange(premTable, 
+                      as.numeric(input$desc) * 
+                        dplyr::desc(!!rlang::sym(input$ordering))),
+    "Premier League Data.csv")
+  })
 }
