@@ -8,7 +8,8 @@ function(input, output) {
   # Define our only output - a table
   output$table <- renderTable(
     arrange(premTable, 
-            as.numeric(input$desc) * dplyr::desc(!!rlang::sym(input$ordering))))
+            as.numeric(input$desc) * dplyr::desc(!!rlang::sym(input$ordering))),
+    digits = 0)
   
   # Download dataset button
   observeEvent(input$download, {
