@@ -4,7 +4,7 @@ library(lubridate)
 function(input, output) {
   # Create function (for modularity) which retrieves data and time and outputs
   # it in the correct format
-  getData <- function() {
+  getOutput <- function() {
     # Scrape data using external function
     source("getPremTable.R")
     premTable <- getPremTable()
@@ -19,14 +19,20 @@ function(input, output) {
       print(paste0("Table last updated at ", as_datetime(Sys.time())))
     })
   }
-  # Retrive and output data using function above
-  getData()
-
+  
+  # Create timer which triggers refresh every hour
+  reload <- reactiveTimer(3.6e+6)
+  # Code will rerun once timer reaches an hour
+  observe({
+    reload()
+    # Retrive and output data using function above
+    getOutput()
+  })
   
   # Refresh table using the button
   observeEvent(input$refresh, {
     # Output updated data using the function defined above
-    getData()
+    getOutput()
   })
   
   # Download dataset button
