@@ -19,12 +19,13 @@ function(input, output) {
       print(paste0("Table last updated at ", as_datetime(Sys.time())))
     })
   }
-  #
+  # Retrive and output data using function above
   getData()
 
   
   # Refresh table using the button
   observeEvent(input$refresh, {
+    # Output updated data using the function defined above
     getData()
   })
   
