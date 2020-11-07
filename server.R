@@ -1,4 +1,5 @@
 # server.R
+library(lubridate)
 
 function(input, output) {
   # Scrape data from Premier League website
@@ -12,6 +13,10 @@ function(input, output) {
               dplyr::desc(!!rlang::sym(input$ordering))),
     digits = 0)
   
+  output$time <- renderText({
+    print(paste0("Table last updated at ", as_datetime(Sys.time())))
+    })
+  
   # Refresh table using the button
   observeEvent(input$refresh, {
     premTable <- getPremTable()
@@ -20,6 +25,10 @@ function(input, output) {
               as.numeric(input$desc) * 
                 dplyr::desc(!!rlang::sym(input$ordering))),
       digits = 0)
+    
+    output$time <- renderText({
+      print(paste0("Table last updated at ", as_datetime(Sys.time())))
+    })
   })
   
   # Download dataset button

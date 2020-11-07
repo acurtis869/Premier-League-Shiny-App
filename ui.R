@@ -35,7 +35,9 @@ fluidPage(
       # Download dataset button
       actionButton(inputId = "download",
                    label = "Download Dataset",
-                   icon = icon("download"))
+                   icon = icon("download")),
+      # Time of last update text
+      textOutput("time")
     ),
     # The main table
     mainPanel(tabPanel("Table"),
