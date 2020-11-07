@@ -54,11 +54,9 @@ getPremTable <- function() {
     html_text() %>%
     as.numeric()
   
-  time <- Sys.time()
-  
   # Compile data into a data frame
   premTable <- data.frame(position, club, played, won, 
-                          drawn, lost, GF, GA, GD, points, time)
+                          drawn, lost, GF, GA, GD, points)
   
   return(premTable)
 }
