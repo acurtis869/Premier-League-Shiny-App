@@ -5,17 +5,28 @@ function(input, output) {
   source("getPremTable.R")
   premTable <- getPremTable()
   
-  # Define our only output - a table
+  # Define our main output - a table
   output$table <- renderTable(
     arrange(premTable, 
-            as.numeric(input$desc) * dplyr::desc(!!rlang::sym(input$ordering))),
+            as.numeric(input$desc) * 
+              dplyr::desc(!!rlang::sym(input$ordering))),
     digits = 0)
+  
+  # Refresh table using the button
+  observeEvent(input$refresh, {
+    premTable <- getPremTable()
+    output$table <- renderTable(
+      arrange(premTable, 
+              as.numeric(input$desc) * 
+                dplyr::desc(!!rlang::sym(input$ordering))),
+      digits = 0)
+  })
   
   # Download dataset button
   observeEvent(input$download, {
     write.csv(arrange(premTable, 
                       as.numeric(input$desc) * 
                         dplyr::desc(!!rlang::sym(input$ordering))),
-    "Premier League Data.csv")
+              "Premier League Data.csv")
   })
 }
