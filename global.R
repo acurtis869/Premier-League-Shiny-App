@@ -79,5 +79,8 @@ getOutput <- function(input, output) {
   # Output the time of the last update
   output$time <- renderText({
     print(paste0("Table last updated at ", as_datetime(Sys.time())))
+    
+  # Output the Scatter Plot
+  output$scatter_plot 
   })
 }

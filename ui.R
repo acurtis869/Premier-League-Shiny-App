@@ -30,7 +30,7 @@ fluidPage(
                                   "Descending" = 1)),
       # Refresh button
       actionButton(inputId = "refresh",
-                   label = "Refresh Table",
+                   label = "Refresh Data",
                    icon = icon("sync")),
       # Download dataset button
       actionButton(inputId = "download",
@@ -40,7 +40,13 @@ fluidPage(
       textOutput("time")
     ),
     # The main table
-    mainPanel(tabPanel("Table"),
-              tableOutput("table"))
+    mainPanel(
+              # Output: Tabset
+              tabsetPanel(type = "tabs",
+                          tabPanel("Scatter Plot", plotOutput(outputId = "scatter_plot")),
+                          tabPanel("Summary", verbatimTextOutput(outputId = "summary")),
+                          tabPanel("Table", tableOutput(outputId = "table"))
+              )
     )
+  )
 )
