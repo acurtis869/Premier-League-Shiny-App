@@ -79,8 +79,16 @@ getOutput <- function(input, output) {
   # Output the time of the last update
   output$time <- renderText({
     print(paste0("Table last updated at ", as_datetime(Sys.time())))
-    
+  })
+  
+  
   # Output the Scatter Plot
-  output$scatter_plot 
+  output$scatterPlot <- renderPlot({
+    # create data frame
+    df <- data.frame(premTable)
+    # generate plot
+    ggplot(df, aes_string(x = input$ordering, y = "points")) +
+      geom_point() + 
+      geom_smooth()
   })
 }

@@ -28,6 +28,7 @@ fluidPage(
                    label = "Direction",
                    choices = list("Ascending" = -1,
                                   "Descending" = 1)),
+      # todo make these side by side
       # Refresh button
       actionButton(inputId = "refresh",
                    label = "Refresh Data",
@@ -43,7 +44,7 @@ fluidPage(
     mainPanel(
               # Output: Tabset
               tabsetPanel(type = "tabs",
-                          tabPanel("Scatter Plot", plotOutput(outputId = "scatter_plot")),
+                          tabPanel("Scatter Plot", plotOutput(outputId = "scatterPlot")),
                           tabPanel("Summary", verbatimTextOutput(outputId = "summary")),
                           tabPanel("Table", tableOutput(outputId = "table"))
               )
