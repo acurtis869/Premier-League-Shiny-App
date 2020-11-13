@@ -121,11 +121,20 @@ getMarketValue <- function() {
   
   club <- htmlPage %>%
     html_nodes(".no-border-links") %>%
-    html_text()
+    html_text() %>%
+    str_remove(" FC") %>%
+    str_replace("&", "and")
   
   MarketValue <- data.frame(club, value)
   return(MarketValue)
 }
 
+mergeTables <- function() {
+  premTable <- getPremTable()
+  MarketValue <- getMarketValue()
+
+  merged <- merge(premTable, MarketValue)
+  return(merged)
+}
 
 
