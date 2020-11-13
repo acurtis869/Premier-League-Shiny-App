@@ -4,6 +4,7 @@
 # Load required libraries
 library(tidyverse)
 library(rvest)
+library(ggdark)
 
 getPremTable <- function() {
   # Begin scraping
@@ -90,27 +91,7 @@ getOutput <- function(input, output) {
     ggplot(df, aes_string(x = input$ordering, y = "points")) +
       geom_point() + 
       geom_smooth() +
-      theme_light()
-      # theme(panel.border = element_rect(color = "gray"),
-      #       panel.grid = element_line(color = "gray"),
-      #       text = element_text(color = "gray20"),
-      #       axis.title.x = element_text(size = 11, vjust = -0.2),
-      #       axis.title.y = element_text(size = 11, vjust = 0.5),
-      #       axis.ticks.x.bottom = element_line(size = 0.25),
-      #       axis.ticks.y.left = element_line(size = 0.25),
-      #       axis.ticks.length = unit(3, "pt"),
-      #       axis.text.x = element_text(vjust = -0.2, face="italic"), 
-      #       axis.text.y = element_text(face="italic"),
-      #       legend.position = "right",
-      #       legend.direction = "vertical",
-      #       legend.box = "vertical",
-      #       legend.justification = "left",
-      #       legend.text = element_text(size = 12),
-      #       plot.caption = element_text(hjust=0),
-      #       plot.title = element_text(size = 14, 
-      #                                 face = "bold", 
-      #                                 color = "#0B36AB"),
-      #       strip.background = element_rect(fill="gray"),
-      #       strip.text = element_text(colour = 'black', size = 12))
-  })
+      dark_theme_dark() +
+      theme(plot.background = element_rect(fill = "#343E48", colour = "#343E48"))
+    })
 }

@@ -1,6 +1,7 @@
 # server.R
 
 function(input, output) {
+  addClass(selector = 'body', class = 'sidebar-collapse') # collapse the sidebar
   
   # Create timer which triggers refresh every hour
   reload <- reactiveTimer(3.6e+6)

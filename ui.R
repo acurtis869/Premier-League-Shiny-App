@@ -1,18 +1,22 @@
 #ui.R
 
 library(shiny)
-library(shinythemes)
+library(dashboardthemes)
+library(shinydashboard)
+library(shinyjs)
 
-fluidPage(theme = shinytheme("darkly"),
+dashboardPage(
   
   # App name
-  titlePanel("Premier League Table"),
+  dashboardHeader(title = "Premier League Table"
+                  # theme = "blue_gradient"
+                  ),
   
   # Sidebar with options on how to sort, a refresh button and a download data
   # option
-  sidebarLayout(
+  dashboardSidebar(
     
-    sidebarPanel(
+    # sidebarPanel(
       # Sorting options
       selectInput(inputId = "ordering",
                   label = "Order by:",
@@ -43,13 +47,20 @@ fluidPage(theme = shinytheme("darkly"),
       textOutput("time")
     ),
     # The main table
-    mainPanel(
-              # Output: Tabset
-              tabsetPanel(type = "tabs",
-                          tabPanel("Scatter Plot", plotOutput(outputId = "scatterPlot")),
-                          tabPanel("Summary", verbatimTextOutput(outputId = "summary")),
-                          tabPanel("Table", tableOutput(outputId = "table"))
-              )
+    dashboardBody(
+      shinyDashboardThemes(
+        theme = "grey_dark"
+      ),
+      fluidRow(
+        tabBox(
+          title = NULL, width = 12,
+          # use id to use input$tabset1 on server
+          id = "tabset1", height = "250px",
+          tabPanel("Scatter Plot", plotOutput(outputId = "scatterPlot")),
+          tabPanel("Table Panel", tableOutput(outputId = "table")),
+          tabPanel("Map", "Map Panel")
+        )
+      ),
+      fluidRow(infoBoxOutput("tabset1Selected"))
     )
-  )
 )
