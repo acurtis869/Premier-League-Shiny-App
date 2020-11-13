@@ -4,6 +4,7 @@
 # Load required libraries
 library(tidyverse)
 library(rvest)
+library(ggdark)
 
 getPremTable <- function() {
   # Begin scraping
@@ -80,4 +81,17 @@ getOutput <- function(input, output) {
   output$time <- renderText({
     print(paste0("Table last updated at ", as_datetime(Sys.time())))
   })
+  
+  
+  # Output the Scatter Plot
+  output$scatterPlot <- renderPlot({
+    # create data frame
+    df <- data.frame(premTable)
+    # generate plot
+    ggplot(df, aes_string(x = input$ordering, y = "points")) +
+      geom_point() + 
+      geom_smooth() +
+      dark_theme_dark() +
+      theme(plot.background = element_rect(fill = "#343E48", colour = "#343E48"))
+    })
 }
