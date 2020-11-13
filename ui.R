@@ -4,13 +4,12 @@ library(shiny)
 library(dashboardthemes)
 library(shinydashboard)
 library(shinyjs)
+library(leaflet) # map
 
 dashboardPage(
   
   # App name
-  dashboardHeader(title = "Premier League Table"
-                  # theme = "blue_gradient"
-                  ),
+  dashboardHeader(title = "Premier League Table"),
   
   # Sidebar with options on how to sort, a refresh button and a download data
   # option
@@ -58,9 +57,12 @@ dashboardPage(
           id = "tabset1", height = "250px",
           tabPanel("Scatter Plot", plotOutput(outputId = "scatterPlot")),
           tabPanel("Table Panel", tableOutput(outputId = "table")),
-          tabPanel("Map", "Map Panel")
+          tabPanel("Map", leafletOutput("mymap"),
+                   p(),
+                   actionButton("recalc", "New points"))
         )
       ),
+      
       fluidRow(infoBoxOutput("tabset1Selected"))
     )
 )

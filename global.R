@@ -94,4 +94,30 @@ getOutput <- function(input, output) {
       dark_theme_dark() +
       theme(plot.background = element_rect(fill = "#343E48", colour = "#343E48"))
     })
+  
+  # Create map content
+  stadiums <- data.frame(
+    lat = c(
+    30.42106667,
+    30.65395,
+    31.62933333,
+    31.6865,
+    31.68715,
+    31.64818333
+  ), 
+  long = c(9.022183333,
+           8.180183333,
+           8.100666667,
+           8.109283333,
+           8.110366667,
+           8.104683333
+  ))
+  
+  output$mymap <- renderLeaflet({
+    leaflet() %>%
+      addProviderTiles(providers$Stamen.TonerLite,
+                       options = providerTileOptions(noWrap = TRUE)
+      ) %>%
+      addMarkers(lat = stadiums$lat, long = stadiums$long)
+  })
 }
