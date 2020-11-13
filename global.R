@@ -93,11 +93,6 @@ getOutput <- function(input, output) {
       geom_smooth() +
       dark_theme_dark() +
       theme(plot.background = element_rect(fill = "#343E48", colour = "#343E48"))
-<<<<<<< HEAD
-    })
-}
-
-=======
     },
     height = 400, width = 600)
   
@@ -138,7 +133,6 @@ getOutput <- function(input, output) {
 
 # Get market value --------------------------------------------------------
 
->>>>>>> 2baf9e5e27da7e879198bf91c6cd0a6560dab13a
 getMarketValue <- function() {
   # Begin scraping
   URL <- "https://www.transfermarkt.com/premier-league/marktwerteverein/wettbewerb/GB1"
@@ -178,9 +172,4 @@ mergeTables <- function() {
 
   merged <- merge(premTable, MarketValue)
   return(merged)
-<<<<<<< HEAD
 }
-=======
-}
-
->>>>>>> 2baf9e5e27da7e879198bf91c6cd0a6560dab13a
