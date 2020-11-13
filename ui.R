@@ -58,7 +58,10 @@ dashboardPage(
           id = "tabset1", height = "250px",
           tabPanel("Scatter Plot", plotOutput(outputId = "scatterPlot")),
           tabPanel("Table Panel", tableOutput(outputId = "table")),
-          tabPanel("Map", "Map Panel")
+          tabPanel("Map", 
+                   leafletOutput("mymap"),
+                   p()
+                   )
         )
       ),
       fluidRow(infoBoxOutput("tabset1Selected"))
