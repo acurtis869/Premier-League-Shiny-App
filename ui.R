@@ -1,7 +1,9 @@
 #ui.R
 
 library(shiny)
-fluidPage(
+library(shinythemes)
+
+fluidPage(theme = shinytheme("darkly"),
   
   # App name
   titlePanel("Premier League Table"),
