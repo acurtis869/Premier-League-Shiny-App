@@ -93,7 +93,8 @@ getOutput <- function(input, output) {
       geom_smooth() +
       dark_theme_dark() +
       theme(plot.background = element_rect(fill = "#343E48", colour = "#343E48"))
-    })
+    },
+    height = 400, width = 600)
   
   # Create map content
   stadiums <- data.frame(
@@ -116,14 +117,15 @@ getOutput <- function(input, output) {
   
   output$mymap <- renderLeaflet({
     leaflet(data = stadiums) %>%
-      addProviderTiles(providers$Stamen.TonerLite,
+      addProviderTiles(providers$OpenStreetMap,
                        options = providerTileOptions(noWrap = TRUE)
       ) %>%
       addCircleMarkers(
         lat = stadiums$lat, 
         lng = stadiums$long,
         radius = stadiums$radius,
-        color = ~ifelse(stadiums$radius > 10, "green", "red")
+        color = ~ifelse(stadiums$radius > 10, "green", "red"),
+        label = stadiums$radius
         )
   })
 }

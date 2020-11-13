@@ -53,11 +53,17 @@ dashboardPage(
       ),
       fluidRow(
         tabBox(
-          title = NULL, width = 12,
+          title = NULL,
           # use id to use input$tabset1 on server
-          id = "tabset1", height = "250px",
-          tabPanel("Scatter Plot", plotOutput(outputId = "scatterPlot")),
-          tabPanel("Table Panel", tableOutput(outputId = "table")),
+          id = "tabset1", 
+          height = 12,
+          width = 12,
+          # panels
+          tabPanel("Scatter Plot", 
+                   plotOutput(outputId = "scatterPlot")),
+          tabPanel("Table",
+
+                   tableOutput(outputId = "table")),
           tabPanel("Map", 
                    leafletOutput("mymap"),
                    p()
