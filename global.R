@@ -76,15 +76,18 @@ getOutput <- function(input, output) {
 
   # render map
   output$mymap <- renderLeaflet({
+    # prep radius data
+    premData$radiusValue = premData[[input$markerRadius]]
+    # map
     leaflet(data = premData) %>%
       addProviderTiles(providers$OpenStreetMap,
                        options = providerTileOptions(noWrap = TRUE)
       ) %>%
       addCircleMarkers(
-        lat = premData$latitude, 
-        lng = premData$longitude,
-        radius = premData$position,
-        color = ~ifelse(premData$position > 10, "green", "red"),
+        lat = ~latitude, 
+        lng = ~longitude,
+        radius = ~radiusValue,
+        color = ~ifelse(radiusValue > input$colorSlider, "#044389", "#FFAD05"),
         label = premData$club
         )
   })
@@ -125,8 +128,8 @@ getOutput <- function(input, output) {
     if (input$tabset == "map") {
       print("map recognised")
       my_ui_sidebar <- 
-        list(selectInput(inputId = "markerSize",
-                         label = "Marker Size By:",
+        list(selectInput(inputId = "markerRadius",
+                         label = "Marker Radius Variable:",
                          choices = c("Position" = "position", 
                                      "Played" = "played", 
                                      "Won" = "won", 
@@ -135,7 +138,13 @@ getOutput <- function(input, output) {
                                      "GF" = "GF", 
                                      "GA" = "GA",
                                      "GD" = "GD",
-                                     "Points" = "points")))
+                                     "Points" = "points")),
+             sliderInput(inputId = "colorSlider", 
+                         label = "Color Threshold:",
+                         min = 0, 
+                         max = 30,
+                         value = 15)
+        )
     }
     if (input$tabset == "table") {
       print("table recognised")

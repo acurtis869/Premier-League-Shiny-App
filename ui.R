@@ -25,11 +25,13 @@ dashboardPage(
       # Refresh button
       actionButton(inputId = "refresh",
                    label = "Refresh Data",
-                   icon = icon("sync")),
+                   icon = icon("sync"),
+                   width = "180px"),
       # Download dataset button
       actionButton(inputId = "download",
                    label = "Download Dataset",
-                   icon = icon("download")),
+                   icon = icon("download"),
+                   width = "180px"),
       # Time of last update text
       textOutput("time")
     ),
@@ -41,7 +43,7 @@ dashboardPage(
       fluidRow(
         tabBox(
           title = NULL,
-          # use id to use input$tabset1 on server
+          # use id to use input$tabset on server
           id = "tabset", 
           selected = "table",
           height = 12,
@@ -51,7 +53,7 @@ dashboardPage(
                    title = "Table",
                    tableOutput(outputId = "table")),
           tabPanel(value = "scatterplot",
-            title = "Scatter Plot", 
+                   title = "Scatter Plot", 
                    plotOutput(outputId = "scatter")),
           tabPanel(value = "map", 
                    title = "Map", 
