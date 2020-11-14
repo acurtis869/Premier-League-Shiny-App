@@ -19,7 +19,8 @@ library(lubridate) # for parsing premier league data.
 
 source("scraper/getPremTable.R")
 source("scraper/getCoords.R")
-source("scraper/getMarketValue.R")
+# source("scraper/getMarketValue.R") # importing this file breaks 
+# the funciton. Reason unknown.
 
 # init marketValue function ------------------------------------------------
 
@@ -105,8 +106,7 @@ getOutput <- function(input, output) {
                                            colour = "#343E48")
             ) +
       ggtitle(paste0("Scatter Plot of ", input$xvar, " and ", input$yvar))
-    },
-    height = 400, width = 600)
+    }, height = 400, width = 600)
   
 # Map Content -------------------------------------------------------------
 
@@ -126,16 +126,16 @@ getOutput <- function(input, output) {
         lat = ~latitude, 
         lng = ~longitude,
         radius = ~radiusValue,
-        color = ~ifelse(radiusValue > input$colorSlider, "#044389", "#FFAD05"),
+        color = ~ifelse(radiusValue > input$colorSlider, 
+                        "#044389", 
+                        "#FFAD05"),
         label = premData$club
         )
   })
 
-
 # Side Bar ----------------------------------------------------------------
 
   output$outSidebar <- renderUI({
-    # my_ui_sidebar <- "Lorem Ipsum"
     if (input$tabset == "scatterplot") {
       print("scatterplot recognised")
       my_ui_sidebar <- 

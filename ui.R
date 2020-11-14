@@ -52,9 +52,11 @@ dashboardPage(
           tabPanel(value = "table", 
                    title = "Table",
                    tableOutput(outputId = "table")),
-          tabPanel(value = "scatterplot",
-                   title = "Scatter Plot", 
-                   plotOutput(outputId = "scatter")),
+          tabPanel(
+            value = "scatterplot",
+            title = "Scatter Plot", 
+              plotOutput(outputId = "scatter")
+            ),
           tabPanel(value = "map", 
                    title = "Map", 
                    leafletOutput("mymap"),
