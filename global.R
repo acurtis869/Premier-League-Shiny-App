@@ -21,6 +21,42 @@ source("scraper/getPremTable.R")
 source("scraper/getCoords.R")
 source("scraper/getMarketValue.R")
 
+# init marketValue function ------------------------------------------------
+
+getMarketValue <- function() {
+  # Begin scraping
+  URL <- "https://www.transfermarkt.com/premier-league/marktwerteverein/wettbewerb/GB1"
+  htmlPage <- read_html(URL)
+  
+  value_raw <- htmlPage %>% 
+    html_nodes(".rechts.hauptlink a") %>%
+    html_text()
+  value_raw <- value_raw[seq(2, 40, 2)] %>%
+    str_remove("€")
+  value <- rep(NA, length(value_raw))
+  for (i in 1:length(value_raw)) {
+    if (grepl("bn", value_raw[i])) {
+      value_raw[i] <- str_remove(value_raw[i], "bn")
+      value[i] <- as.numeric(value_raw[i])
+      value[i] <- value[i] * 1000
+    }
+    else {
+      value_raw[i] <- str_remove(value_raw[i], "m")
+      value[i] <- as.numeric(value_raw[i])
+    }
+  } 
+  
+  club <- htmlPage %>%
+    html_nodes(".no-border-links") %>%
+    html_text() %>%
+    str_remove(" FC") %>%
+    str_replace("&", "and")
+  
+  MarketValue <- data.frame(club, value)
+  return(MarketValue)
+}
+
+
 # Generate Data and plots For Shiny Application --------------------------
 
 getOutput <- function(input, output) {
@@ -29,15 +65,14 @@ getOutput <- function(input, output) {
   stadiumCoords <- getCoords()
   stadiumCoords$latitude <- lapply(stadiumCoords$latitude, transformLatToDecimal)
   stadiumCoords$longitude <- lapply(stadiumCoords$longitude, transformLongToDecimal)
-  # marketValue <- getMarketValue()
+  marketValue <- getMarketValue()
   
   # Merge all data together into one table ----------------------------------
   
+  premTable <- merge(premTable, marketValue, by = "club")
   premData <- merge(premTable, stadiumCoords, by = "club")
   premData <- unnest(premData, cols = c(latitude, longitude))
-  print(head(premData))
-  # premData <- merge(premData, marketValue, by = "club")
-  
+  print(head(premTable))
 
 # Table -------------------------------------------------------------------
 
@@ -68,7 +103,8 @@ getOutput <- function(input, output) {
       dark_theme_dark() +
       theme(plot.background = element_rect(fill = "#343E48", 
                                            colour = "#343E48")
-            )
+            ) +
+      ggtitle(paste0("Scatter Plot of ", input$xvar, " and ", input$yvar))
     },
     height = 400, width = 600)
   
@@ -111,7 +147,8 @@ getOutput <- function(input, output) {
                                      "GF" = "GF", 
                                      "GA" = "GA",
                                      "GD" = "GD",
-                                     "Points" = "points")),
+                                     "Points" = "points",
+                                     "Market Value" = "value")),
              selectInput(inputId = "yvar",
                          label = "Y Variable:",
                          choices = c("Position" = "position", 
@@ -123,7 +160,8 @@ getOutput <- function(input, output) {
                                      "GF" = "GF", 
                                      "GA" = "GA",
                                      "GD" = "GD",
-                                     "Points" = "points")))
+                                     "Points" = "points",
+                                     "Market Value" = "value")))
     }
     if (input$tabset == "map") {
       print("map recognised")
@@ -138,7 +176,8 @@ getOutput <- function(input, output) {
                                      "GF" = "GF", 
                                      "GA" = "GA",
                                      "GD" = "GD",
-                                     "Points" = "points")),
+                                     "Points" = "points",
+                                     "Market Value" = "value")),
              sliderInput(inputId = "colorSlider", 
                          label = "Color Threshold:",
                          min = 0, 
@@ -160,7 +199,8 @@ getOutput <- function(input, output) {
                                 "GF" = "GF", 
                                 "GA" = "GA",
                                 "GD" = "GD",
-                                "Points" = "points")),
+                                "Points" = "points",
+                                "Market Value" = "value")),
       radioButtons(inputId = "desc",
                    label = "Direction",
                    choices = list("Ascending" = -1,
