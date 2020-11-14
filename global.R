@@ -14,7 +14,6 @@ library(rvest)
 library(ggdark)
 library(lubridate) # for parsing premier league data.
 
-
 # Load Required Scraper Functions -----------------------------------------
 
 source("scraper/getPremTable.R")
@@ -83,14 +82,6 @@ getOutput <- function(input, output) {
             as.numeric(input$desc) * 
               dplyr::desc(!!rlang::sym(input$ordering))),
     digits = 0)
-  
-
-# Print Time Updated ------------------------------------------------------
-  
-  # Output the time of the last update
-  output$time <- renderText({
-    print(paste0("Table last updated at ", as_datetime(Sys.time())))
-  })
   
 # Scatter Plot ------------------------------------------------------------
 
