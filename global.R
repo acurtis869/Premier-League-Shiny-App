@@ -180,7 +180,7 @@ getOutput <- function(input, output) {
                                      "GA" = "GA",
                                      "GD" = "GD",
                                      "Points" = "points",
-                                     "Market Value" = "value")),
+                                     "Market Value / 100" = "value")),
              sliderInput(inputId = "colorSlider", 
                          label = "Color Threshold:",
                          min = 0, 
