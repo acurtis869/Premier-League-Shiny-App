@@ -1,0 +1,12 @@
+name: MT5763_Shiny
+title: MT5763_Shiny
+username:
+account: jleop
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3232610
+bundleId: 3860533
+url: https://jleop.shinyapps.io/MT5763_Shiny/
+when: 1605373181.41444
+asMultiple: FALSE
+asStatic: FALSE

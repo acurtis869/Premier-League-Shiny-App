@@ -118,7 +118,7 @@ getOutput <- function(input, output) {
         radius = ~radiusValue,
         color = ~ifelse(radiusValue > input$colorSlider, 
                         "#044389", 
-                        "#FFAD05"),
+                        "red"),
         label = premData$club
         )
   })
@@ -170,7 +170,7 @@ getOutput <- function(input, output) {
                                      "Points" = "Points",
                                      "Market Value (as 100 mio €)" = "Value")),
              sliderInput(inputId = "colorSlider", 
-                         label = "Color Threshold (> Orange):",
+                         label = "Color Threshold (> Blue):",
                          min = 0, 
                          max = 30,
                          value = 15)
