@@ -4,7 +4,9 @@
 # University of St Andrews, 2020
 #######################################################################
 
-
+# Load libraries
+library(rvest)
+library(tidyverse)
 
 getMarketValue <- function() {
   # Begin scraping
