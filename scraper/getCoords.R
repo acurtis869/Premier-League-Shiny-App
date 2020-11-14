@@ -3,8 +3,10 @@
 # 
 # University of St Andrews, 2020
 #######################################################################
+library(sp)
+library(biogeo) # dms conversion
 
-getCoords <- function() {
+ getCoords <- function() {
   URL <- "https://en.wikipedia.org/wiki/List_of_Premier_League_stadiums#cite_note-14"
   htmlPage <- read_html(URL)
   
@@ -21,9 +23,22 @@ getCoords <- function() {
     html_nodes(".longitude") %>%
     html_text
   
-  coord <- data.frame(club, latitude, longitude)
-  return(coord)
-}
+  coords <- data.frame(club, 
+                       latitude, 
+                       longitude)
   
+  return(coords)
+  
+ }
 
+transformLatToDecimal <- function(lat_string) {
+  lat_list <- str_extract_all(lat_string, '\\d{0,3}', simplify = TRUE)
+  lat <- dms2dd(as.numeric(lat_list[1]), as.numeric(lat_list[3]), as.numeric(lat_list[5]), "N")
+  return(lat)
+}
 
+transformLongToDecimal <- function(lat_string) {
+  lat_list <- str_extract_all(lat_string, '\\d{0,3}', simplify = TRUE)
+  lat <- dms2dd(as.numeric(lat_list[1]), as.numeric(lat_list[3]), as.numeric(lat_list[5]), "W")
+  return(lat)
+}
