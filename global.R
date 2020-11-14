@@ -53,7 +53,7 @@ getMarketValue <- function() {
     str_remove(" FC") %>%
     str_replace("&", "and")
   
-  MarketValue <- data.frame(club, value)
+  MarketValue <- data.frame("Club" = club, "Value" = value)
   return(MarketValue)
 }
 
@@ -70,9 +70,10 @@ getOutput <- function(input, output) {
   
   # Merge all data together into one table ----------------------------------
   
-  premTable <- merge(premTable, marketValue, by = "club")
-  premData <- merge(premTable, stadiumCoords, by = "club")
+  premTable <- merge(premTable, marketValue, by = "Club")
+  premData <- merge(premTable, stadiumCoords, by = "Club")
   premData <- unnest(premData, cols = c(latitude, longitude))
+  print(head(premTable))
 
 # Table -------------------------------------------------------------------
 
@@ -87,9 +88,8 @@ getOutput <- function(input, output) {
 # Print Time Updated ------------------------------------------------------
   
   # Output the time of the last update
-  
   output$time <- renderText({
-    print(paste0("  Table last updated at ", as_datetime(Sys.time())))
+    print(paste0("Table last updated at ", as_datetime(Sys.time())))
   })
   
 # Scatter Plot ------------------------------------------------------------
@@ -137,49 +137,50 @@ getOutput <- function(input, output) {
 
   output$outSidebar <- renderUI({
     if (input$tabset == "scatterplot") {
+      print("scatterplot recognised")
       my_ui_sidebar <- 
         list(selectInput(inputId = "xvar",
                          label = "X Variable:",
-                         choices = c(
-                                     "Market Value" = "value",
-                                     "Position" = "position",
-                                     "Played" = "played", 
-                                     "Won" = "won", 
-                                     "Club" = "club", 
-                                     "Drawn" = "drawn", 
-                                     "Lost" = "lost",
-                                     "GF" = "GF", 
-                                     "GA" = "GA",
-                                     "GD" = "GD",
-                                     "Points" = "points")),
+                         choices = c("Position" = "Position", 
+                                     "Played" = "Played",
+                                     "Club" = "Club", 
+                                     "Won" = "Won", 
+                                     "Drawn" = "Drawn", 
+                                     "Lost" = "Lost",
+                                     "Goals For" = "GF", 
+                                     "Goals Against" = "GA",
+                                     "Goal Difference" = "GD",
+                                     "Points" = "Points",
+                                     "Market Value" = "Value")),
              selectInput(inputId = "yvar",
                          label = "Y Variable:",
-                         choices = c("Position" = "position", 
-                                     "Played" = "played",
-                                     "Club" = "club", 
-                                     "Won" = "won", 
-                                     "Drawn" = "drawn", 
-                                     "Lost" = "lost",
-                                     "GF" = "GF", 
-                                     "GA" = "GA",
-                                     "GD" = "GD",
-                                     "Points" = "points",
-                                     "Market Value" = "value")))
+                         choices = c("Position" = "Position", 
+                                     "Played" = "Played",
+                                     "Club" = "Club", 
+                                     "Won" = "Won", 
+                                     "Drawn" = "Drawn", 
+                                     "Lost" = "Lost",
+                                     "Goals For" = "GF", 
+                                     "Goals Against" = "GA",
+                                     "Goal Difference" = "GD",
+                                     "Points" = "Points",
+                                     "Market Value" = "Value")))
     }
     if (input$tabset == "map") {
+      print("map recognised")
       my_ui_sidebar <- 
         list(selectInput(inputId = "markerRadius",
                          label = "Marker Radius Variable:",
-                         choices = c("Position" = "position", 
-                                     "Played" = "played", 
-                                     "Won" = "won", 
-                                     "Drawn" = "drawn", 
-                                     "Lost" = "lost",
-                                     "GF" = "GF", 
-                                     "GA" = "GA",
-                                     "GD" = "GD",
-                                     "Points" = "points",
-                                     "Market Value / 100" = "value")),
+                         choices = c("Position" = "Position", 
+                                     "Played" = "Played", 
+                                     "Won" = "Won", 
+                                     "Drawn" = "Drawn", 
+                                     "Lost" = "Lost",
+                                     "Goals For" = "GF", 
+                                     "Goals Against" = "GA",
+                                     "Goal Difference" = "GD",
+                                     "Points" = "Points",
+                                     "Market Value / 100" = "Value")),
              sliderInput(inputId = "colorSlider", 
                          label = "Color Threshold:",
                          min = 0, 
@@ -188,20 +189,21 @@ getOutput <- function(input, output) {
         )
     }
     if (input$tabset == "table") {
+      print("table recognised")
       my_ui_sidebar <- 
         list(selectInput(inputId = "ordering",
                     label = "Order by:",
-                    choices = c("Position" = "position", 
-                                "Club" = "club", 
-                                "Played" = "played", 
-                                "Won" = "won", 
-                                "Drawn" = "drawn", 
-                                "Lost" = "lost",
-                                "GF" = "GF", 
-                                "GA" = "GA",
-                                "GD" = "GD",
-                                "Points" = "points",
-                                "Market Value" = "value")),
+                    choices = c("Position" = "Position", 
+                                "Club" = "Club", 
+                                "Played" = "Played", 
+                                "Won" = "Won", 
+                                "Drawn" = "Drawn", 
+                                "Lost" = "Lost",
+                                "Goals For" = "GF", 
+                                "Goals Against" = "GA",
+                                "Goal Difference" = "GD",
+                                "Points" = "Points",
+                                "Market Value" = "Value")),
       radioButtons(inputId = "desc",
                    label = "Direction",
                    choices = list("Ascending" = -1,

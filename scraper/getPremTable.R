@@ -54,8 +54,16 @@ getPremTable <- function() {
     as.numeric()
   
   # Compile data into a data frame
-  premTable <- data.frame(position, club, played, won, 
-                          drawn, lost, GF, GA, GD, points)
+  premTable <- data.frame("Position" = position, 
+                          "Club" = club, 
+                          "Played" = played, 
+                          "Won" = won, 
+                          "Drawn" = drawn, 
+                          "Lost" = lost, 
+                          "GF" = GF, 
+                          "GA" = GA, 
+                          "GD" = GD, 
+                          "Points" = points)
   
   return(premTable)
 }
