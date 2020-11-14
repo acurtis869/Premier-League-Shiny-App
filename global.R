@@ -130,7 +130,7 @@ getOutput <- function(input, output) {
       my_ui_sidebar <- 
         list(selectInput(inputId = "xvar",
                          label = "X Variable:",
-                         choices = c("Market Value" = "Value",
+                         choices = c("Market Value (million €)" = "Value",
                                      "Position" = "Position", 
                                      "Played" = "Played",
                                      "Club" = "Club", 
@@ -153,7 +153,7 @@ getOutput <- function(input, output) {
                                      "Goals Against" = "GA",
                                      "Goal Difference" = "GD",
                                      "Points" = "Points",
-                                     "Market Value" = "Value")))
+                                     "Market Value (million €)" = "Value")))
     }
     if (input$tabset == "map") {
       my_ui_sidebar <- 
@@ -190,7 +190,7 @@ getOutput <- function(input, output) {
                                 "Goals Against" = "GA",
                                 "Goal Difference" = "GD",
                                 "Points" = "Points",
-                                "Market Value" = "Value")),
+                                "Market Value (million €)" = "Value")),
       radioButtons(inputId = "desc",
                    label = "Direction",
                    choices = list("Ascending" = -1,
