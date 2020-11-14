@@ -4,6 +4,10 @@
 # University of St Andrews, 2020
 #######################################################################
 
+# Load libraries
+library(rvest)
+library(tidyverse)
+
 getMarketValue <- function() {
   # Begin scraping
   URL <- "https://www.transfermarkt.com/premier-league/marktwerteverein/wettbewerb/GB1"
@@ -35,4 +39,12 @@ getMarketValue <- function() {
   
   MarketValue <- data.frame(club, value)
   return(MarketValue)
+}
+
+mergeTables <- function() {
+  premTable <- getPremTable()
+  MarketValue <- getMarketValue()
+  
+  merged <- merge(premTable, MarketValue)
+  return(merged)
 }
