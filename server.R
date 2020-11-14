@@ -21,6 +21,7 @@ function(input, output) {
   observeEvent(input$refresh, {
     # Output updated data using the function defined in global.R
     getOutput(input, output)
+    shinyalert("Data Refreshed", paste0("The table was last updated at ", as_datetime(Sys.time())), type = "success")
   })
   
   # Download dataset button
@@ -29,5 +30,6 @@ function(input, output) {
                       as.numeric(input$desc) * 
                         dplyr::desc(!!rlang::sym(input$ordering))),
               "Premier League Data.csv")
+    shinyalert("Download Complete", "We saved the data to your shiny working directory.", type = "success")
   })
 }

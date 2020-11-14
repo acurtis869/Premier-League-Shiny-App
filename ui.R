@@ -9,11 +9,12 @@ library(dashboardthemes)
 library(shinydashboard)
 library(shinyjs)
 library(leaflet) # map
+library(shinyalert)
 
 dashboardPage(
   
   # App name
-  dashboardHeader(title = "Premier League Table"),
+  dashboardHeader(title = "The Premier League"),
   
   # Sidebar with options on how to sort, a refresh button and a download data
   # option
@@ -23,6 +24,7 @@ dashboardPage(
       uiOutput("outSidebar"),
 
       # Refresh button
+      useShinyalert(),
       actionButton(inputId = "refresh",
                    label = "Refresh Data",
                    icon = icon("sync"),
@@ -51,20 +53,23 @@ dashboardPage(
           # panels
           tabPanel(value = "table", 
                    title = "Table",
+                   h3("Overview of Premier League"),
                    tableOutput(outputId = "table")),
           tabPanel(
             value = "scatterplot",
             title = "Scatter Plot", 
+            h3("Individual Variable Analysis"),
               plotOutput(outputId = "scatter")
             ),
           tabPanel(value = "map", 
                    title = "Map", 
+                   h3("Geographic Analysis of Premier League Attributes"),
                    leafletOutput("mymap"),
                    p()
                    )
         )
       ),
       
-      fluidRow(infoBoxOutput("tabset1Selected"))
+      fluidRow(infoBoxOutput("tabsetSelected"))
     )
 )

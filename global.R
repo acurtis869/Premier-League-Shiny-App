@@ -73,7 +73,6 @@ getOutput <- function(input, output) {
   premTable <- merge(premTable, marketValue, by = "club")
   premData <- merge(premTable, stadiumCoords, by = "club")
   premData <- unnest(premData, cols = c(latitude, longitude))
-  print(head(premTable))
 
 # Table -------------------------------------------------------------------
 
@@ -83,14 +82,6 @@ getOutput <- function(input, output) {
             as.numeric(input$desc) * 
               dplyr::desc(!!rlang::sym(input$ordering))),
     digits = 0)
-  
-
-# Print Time Updated ------------------------------------------------------
-  
-  # Output the time of the last update
-  output$time <- renderText({
-    print(paste0("Table last updated at ", as_datetime(Sys.time())))
-  })
   
 # Scatter Plot ------------------------------------------------------------
 
@@ -137,11 +128,12 @@ getOutput <- function(input, output) {
 
   output$outSidebar <- renderUI({
     if (input$tabset == "scatterplot") {
-      print("scatterplot recognised")
       my_ui_sidebar <- 
         list(selectInput(inputId = "xvar",
                          label = "X Variable:",
-                         choices = c("Position" = "position", 
+                         choices = c(
+                                     "Market Value" = "value",
+                                     "Position" = "position",
                                      "Played" = "played", 
                                      "Won" = "won", 
                                      "Club" = "club", 
@@ -150,8 +142,7 @@ getOutput <- function(input, output) {
                                      "GF" = "GF", 
                                      "GA" = "GA",
                                      "GD" = "GD",
-                                     "Points" = "points",
-                                     "Market Value" = "value")),
+                                     "Points" = "points")),
              selectInput(inputId = "yvar",
                          label = "Y Variable:",
                          choices = c("Position" = "position", 
@@ -167,7 +158,6 @@ getOutput <- function(input, output) {
                                      "Market Value" = "value")))
     }
     if (input$tabset == "map") {
-      print("map recognised")
       my_ui_sidebar <- 
         list(selectInput(inputId = "markerRadius",
                          label = "Marker Radius Variable:",
@@ -189,7 +179,6 @@ getOutput <- function(input, output) {
         )
     }
     if (input$tabset == "table") {
-      print("table recognised")
       my_ui_sidebar <- 
         list(selectInput(inputId = "ordering",
                     label = "Order by:",
