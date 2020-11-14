@@ -37,6 +37,6 @@ getMarketValue <- function() {
     str_remove(" FC") %>%
     str_replace("&", "and")
   
-  MarketValue <- data.frame(club, value)
+  MarketValue <- data.frame("Club" = club, "Value" = value)
   return(MarketValue)
 }

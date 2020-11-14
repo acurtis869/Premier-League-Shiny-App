@@ -23,7 +23,7 @@ library(biogeo) # dms conversion
     html_nodes(".longitude") %>%
     html_text
   
-  coords <- data.frame(club, 
+  coords <- data.frame("Club" = club, 
                        latitude, 
                        longitude)
   
