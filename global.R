@@ -72,7 +72,6 @@ getOutput <- function(input, output) {
   premTable <- merge(premTable, marketValue, by = "Club")
   premData <- merge(premTable, stadiumCoords, by = "Club")
   premData <- unnest(premData, cols = c(latitude, longitude))
-  print(head(premTable))
 
 # Table -------------------------------------------------------------------
 
@@ -128,11 +127,11 @@ getOutput <- function(input, output) {
 
   output$outSidebar <- renderUI({
     if (input$tabset == "scatterplot") {
-      print("scatterplot recognised")
       my_ui_sidebar <- 
         list(selectInput(inputId = "xvar",
                          label = "X Variable:",
-                         choices = c("Position" = "Position", 
+                         choices = c("Market Value" = "Value",
+                                     "Position" = "Position", 
                                      "Played" = "Played",
                                      "Club" = "Club", 
                                      "Won" = "Won", 
@@ -141,8 +140,7 @@ getOutput <- function(input, output) {
                                      "Goals For" = "GF", 
                                      "Goals Against" = "GA",
                                      "Goal Difference" = "GD",
-                                     "Points" = "Points",
-                                     "Market Value" = "Value")),
+                                     "Points" = "Points")),
              selectInput(inputId = "yvar",
                          label = "Y Variable:",
                          choices = c("Position" = "Position", 
@@ -158,7 +156,6 @@ getOutput <- function(input, output) {
                                      "Market Value" = "Value")))
     }
     if (input$tabset == "map") {
-      print("map recognised")
       my_ui_sidebar <- 
         list(selectInput(inputId = "markerRadius",
                          label = "Marker Radius Variable:",
@@ -173,14 +170,13 @@ getOutput <- function(input, output) {
                                      "Points" = "Points",
                                      "Market Value / 100" = "Value")),
              sliderInput(inputId = "colorSlider", 
-                         label = "Color Threshold:",
+                         label = "Color Threshold (> Orange):",
                          min = 0, 
                          max = 30,
                          value = 15)
         )
     }
     if (input$tabset == "table") {
-      print("table recognised")
       my_ui_sidebar <- 
         list(selectInput(inputId = "ordering",
                     label = "Order by:",
