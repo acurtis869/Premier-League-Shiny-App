@@ -104,7 +104,7 @@ getOutput <- function(input, output) {
   output$mymap <- renderLeaflet({
     # prep radius data
     premData$radiusValue = premData[[input$markerRadius]]
-    if (input$markerRadius == "value") {
+    if (input$markerRadius == "Value") {
       premData$radiusValue = premData[[input$markerRadius]]/100
     }
     # map
@@ -168,7 +168,7 @@ getOutput <- function(input, output) {
                                      "Goals Against" = "GA",
                                      "Goal Difference" = "GD",
                                      "Points" = "Points",
-                                     "Market Value / 100" = "Value")),
+                                     "Market Value (as 100 mio €)" = "Value")),
              sliderInput(inputId = "colorSlider", 
                          label = "Color Threshold (> Orange):",
                          min = 0, 
