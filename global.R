@@ -83,6 +83,15 @@ getOutput <- function(input, output) {
               dplyr::desc(!!rlang::sym(input$ordering))),
     digits = 0)
   
+
+# Print Time Updated ------------------------------------------------------
+  
+  # Output the time of the last update
+  
+  output$time <- renderText({
+    print(paste0("  Table last updated at ", as_datetime(Sys.time())))
+  })
+  
 # Scatter Plot ------------------------------------------------------------
 
   output$scatter <- renderPlot({
