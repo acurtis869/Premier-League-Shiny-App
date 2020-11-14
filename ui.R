@@ -18,26 +18,10 @@ dashboardPage(
   # Sidebar with options on how to sort, a refresh button and a download data
   # option
   dashboardSidebar(
-    
-    # sidebarPanel(
-      # Sorting options
-      selectInput(inputId = "ordering",
-                  label = "Order by:",
-                  choices = c("Position" = "position", 
-                              "Club" = "club", 
-                              "Played" = "played", 
-                              "Won" = "won", 
-                              "Drawn" = "drawn", 
-                              "Lost" = "lost",
-                              "GF" = "GF", 
-                              "GA" = "GA",
-                              "GD" = "GD",
-                              "Points" = "points")),
-      radioButtons(inputId = "desc",
-                   label = "Direction",
-                   choices = list("Ascending" = -1,
-                                  "Descending" = 1)),
-      # todo make these side by side
+      
+      # sidebar of each tabpanel
+      uiOutput("outSidebar"),
+
       # Refresh button
       actionButton(inputId = "refresh",
                    label = "Refresh Data",
@@ -58,16 +42,19 @@ dashboardPage(
         tabBox(
           title = NULL,
           # use id to use input$tabset1 on server
-          id = "tabset1", 
+          id = "tabset", 
+          selected = "table",
           height = 12,
           width = 12,
           # panels
-          tabPanel("Scatter Plot", 
-                   plotOutput(outputId = "scatterPlot")),
-          tabPanel("Table",
-
+          tabPanel(value = "table", 
+                   title = "Table",
                    tableOutput(outputId = "table")),
-          tabPanel("Map", 
+          tabPanel(value = "scatterplot",
+            title = "Scatter Plot", 
+                   plotOutput(outputId = "scatter")),
+          tabPanel(value = "map", 
+                   title = "Map", 
                    leafletOutput("mymap"),
                    p()
                    )

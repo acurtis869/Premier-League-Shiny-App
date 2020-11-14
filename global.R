@@ -13,14 +13,13 @@ library(tidyverse)
 library(rvest)
 library(ggdark)
 library(lubridate) # for parsing premier league data.
-# library(measurments) # for coordinates
 
 
 # Load Required Scraper Functions -----------------------------------------
 
 source("scraper/getPremTable.R")
-source("scraper/getMarketValue.R")
 source("scraper/getCoords.R")
+source("scraper/getMarketValue.R")
 
 # Generate Data and plots For Shiny Application --------------------------
 
@@ -30,6 +29,7 @@ getOutput <- function(input, output) {
   stadiumCoords <- getCoords()
   stadiumCoords$latitude <- lapply(stadiumCoords$latitude, transformLatToDecimal)
   stadiumCoords$longitude <- lapply(stadiumCoords$longitude, transformLongToDecimal)
+  # marketValue <- getMarketValue()
   
   # Merge all data together into one table ----------------------------------
   
@@ -58,41 +58,23 @@ getOutput <- function(input, output) {
   
 # Scatter Plot ------------------------------------------------------------
 
-  output$scatterPlot <- renderPlot({
+  output$scatter <- renderPlot({
     # create data frame
     df <- data.frame(premTable)
     # generate plot
-    ggplot(df, aes_string(x = input$ordering, y = "points")) +
+    ggplot(df, aes_string(x = input$xvar, y = input$yvar)) +
       geom_point() + 
       geom_smooth() +
       dark_theme_dark() +
       theme(plot.background = element_rect(fill = "#343E48", 
-                                           colour = "#343E48"))
+                                           colour = "#343E48")
+            )
     },
     height = 400, width = 600)
   
 # Map Content -------------------------------------------------------------
 
-  # Prepare Data
-  stadiums <- data.frame(
-    lat = c(
-      30.42106667,
-      30.65395,
-      31.62933333,
-      31.6865,
-      31.68715,
-      31.64818333
-    ), 
-    long = c(9.022183333,
-             8.180183333,
-             8.100666667,
-             8.109283333,
-             8.110366667,
-             8.104683333
-    ),
-    radius = c(1,20,3,10,5,50))
-  
-  # render Plot
+  # render map
   output$mymap <- renderLeaflet({
     leaflet(data = premData) %>%
       addProviderTiles(providers$OpenStreetMap,
@@ -106,4 +88,78 @@ getOutput <- function(input, output) {
         label = premData$club
         )
   })
+
+
+# Side Bar ----------------------------------------------------------------
+
+  output$outSidebar <- renderUI({
+    # my_ui_sidebar <- "Lorem Ipsum"
+    if (input$tabset == "scatterplot") {
+      print("scatterplot recognised")
+      my_ui_sidebar <- 
+        list(selectInput(inputId = "xvar",
+                         label = "X Variable:",
+                         choices = c("Position" = "position", 
+                                     "Played" = "played", 
+                                     "Won" = "won", 
+                                     "Club" = "club", 
+                                     "Drawn" = "drawn", 
+                                     "Lost" = "lost",
+                                     "GF" = "GF", 
+                                     "GA" = "GA",
+                                     "GD" = "GD",
+                                     "Points" = "points")),
+             selectInput(inputId = "yvar",
+                         label = "Y Variable:",
+                         choices = c("Position" = "position", 
+                                     "Played" = "played",
+                                     "Club" = "club", 
+                                     "Won" = "won", 
+                                     "Drawn" = "drawn", 
+                                     "Lost" = "lost",
+                                     "GF" = "GF", 
+                                     "GA" = "GA",
+                                     "GD" = "GD",
+                                     "Points" = "points")))
+    }
+    if (input$tabset == "map") {
+      print("map recognised")
+      my_ui_sidebar <- 
+        list(selectInput(inputId = "markerSize",
+                         label = "Marker Size By:",
+                         choices = c("Position" = "position", 
+                                     "Played" = "played", 
+                                     "Won" = "won", 
+                                     "Drawn" = "drawn", 
+                                     "Lost" = "lost",
+                                     "GF" = "GF", 
+                                     "GA" = "GA",
+                                     "GD" = "GD",
+                                     "Points" = "points")))
+    }
+    if (input$tabset == "table") {
+      print("table recognised")
+      my_ui_sidebar <- 
+        list(selectInput(inputId = "ordering",
+                    label = "Order by:",
+                    choices = c("Position" = "position", 
+                                "Club" = "club", 
+                                "Played" = "played", 
+                                "Won" = "won", 
+                                "Drawn" = "drawn", 
+                                "Lost" = "lost",
+                                "GF" = "GF", 
+                                "GA" = "GA",
+                                "GD" = "GD",
+                                "Points" = "points")),
+      radioButtons(inputId = "desc",
+                   label = "Direction",
+                   choices = list("Ascending" = -1,
+                                  "Descending" = 1)))   
+    }
+    return(my_ui_sidebar)
+  })
+
+# Close function ----------------------------------------------------------
+
 }
