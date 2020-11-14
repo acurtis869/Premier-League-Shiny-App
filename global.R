@@ -114,6 +114,9 @@ getOutput <- function(input, output) {
   output$mymap <- renderLeaflet({
     # prep radius data
     premData$radiusValue = premData[[input$markerRadius]]
+    if (input$markerRadius == "value") {
+      premData$radiusValue = premData[[input$markerRadius]]/100
+    }
     # map
     leaflet(data = premData) %>%
       addProviderTiles(providers$OpenStreetMap,

@@ -4,9 +4,9 @@
 # University of St Andrews, 2020
 #######################################################################
 
-# Load libraries
-library(rvest)
-library(tidyverse)
+# # Load libraries
+# library(tidyverse)
+# library(rvest)
 
 getMarketValue <- function() {
   # Begin scraping
@@ -39,12 +39,4 @@ getMarketValue <- function() {
   
   MarketValue <- data.frame(club, value)
   return(MarketValue)
-}
-
-mergeTables <- function() {
-  premTable <- getPremTable()
-  MarketValue <- getMarketValue()
-  
-  merged <- merge(premTable, MarketValue)
-  return(merged)
 }
