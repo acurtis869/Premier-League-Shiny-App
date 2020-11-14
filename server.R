@@ -1,4 +1,9 @@
+#######################################################################
 # server.R
+# 
+# University of St Andrews, 2020
+#######################################################################
+
 
 function(input, output) {
   addClass(selector = 'body', class = 'sidebar-collapse') # collapse the sidebar

@@ -27,6 +27,17 @@ source("scraper/getCoords.R")
 getOutput <- function(input, output) {
   # Scrape data using scraping function above
   premTable <- getPremTable()
+  stadiumCoords <- getCoords()
+  stadiumCoords$latitude <- lapply(stadiumCoords$latitude, transformLatToDecimal)
+  stadiumCoords$longitude <- lapply(stadiumCoords$longitude, transformLongToDecimal)
+  
+  # Merge all data together into one table ----------------------------------
+  
+  premData <- merge(premTable, stadiumCoords, by = "club")
+  premData <- unnest(premData, cols = c(latitude, longitude))
+  print(head(premData))
+  # premData <- merge(premData, marketValue, by = "club")
+  
 
 # Table -------------------------------------------------------------------
 
@@ -83,16 +94,16 @@ getOutput <- function(input, output) {
   
   # render Plot
   output$mymap <- renderLeaflet({
-    leaflet(data = stadiums) %>%
+    leaflet(data = premData) %>%
       addProviderTiles(providers$OpenStreetMap,
                        options = providerTileOptions(noWrap = TRUE)
       ) %>%
       addCircleMarkers(
-        lat = stadiums$lat, 
-        lng = stadiums$long,
-        radius = stadiums$radius,
-        color = ~ifelse(stadiums$radius > 10, "green", "red"),
-        label = stadiums$radius
+        lat = premData$latitude, 
+        lng = premData$longitude,
+        radius = premData$position,
+        color = ~ifelse(premData$position > 10, "green", "red"),
+        label = premData$club
         )
   })
 }
