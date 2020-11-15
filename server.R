@@ -26,6 +26,7 @@ function(input, output) {
   
   # Download dataset button
   observeEvent(input$download, {
+    premTable <- merge(getPremTable(), getMarketValue(), by = "Club")
     write.csv(arrange(premTable, 
                       as.numeric(input$desc) * 
                         dplyr::desc(!!rlang::sym(input$ordering))),
